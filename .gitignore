@@ -267,3 +267,24 @@ devenv/blocks/auth/signer/keys/ec_private_key.pem
 
 # Spec-kit files shouldn't be committed without a major design process
 .specs
+# Added by codex sync
+node_modules/
+bower_components/
+.next/
+.nuxt/
+out/
+dist/
+build/
+.env
+.env.*
+*.log
+*.pem
+*.key
+*.p12
+*.mobileprovision
+*.cer
+*.crt
+*.pfx
+*.jks
+*.keystore
+secrets.*
