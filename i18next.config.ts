@@ -8,13 +8,13 @@ export default defineConfig({
       'public/app/extensions/**/*',
       'public/app/plugins/datasource/**/*',
       'packages/*/dist/**/*',
+      '**/node_modules/**/*',
     ],
     input: ['public/**/*.{tsx,ts}', 'packages/grafana-ui/**/*.{tsx,ts}', 'packages/grafana-data/**/*.{tsx,ts}'],
     output: 'public/locales/{{language}}/{{namespace}}.json',
     defaultNS: 'grafana',
     functions: ['t', '*.t'],
     transComponents: ['Trans'],
-    // eslint-disable-next-line no-restricted-syntax
-    sort: (a, b) => a.key.localeCompare(b.key, 'en-US'),
+    warnOnConflicts: 'error',
   },
 });

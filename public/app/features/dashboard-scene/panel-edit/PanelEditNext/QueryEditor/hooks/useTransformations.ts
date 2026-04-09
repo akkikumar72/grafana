@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 
 import { standardTransformersRegistry } from '@grafana/data';
-import { SceneDataTransformer } from '@grafana/scenes';
+import { type SceneDataTransformer } from '@grafana/scenes';
 
-import { Transformation } from '../types';
-import { filterDataTransformerConfigs } from '../utils';
+import { type Transformation } from '../types';
+import { filterDataTransformerConfigs, getTransformId } from '../utils';
 
 /**
  * Hook to subscribe to transformations from a SceneDataTransformer.
@@ -26,7 +26,7 @@ export function useTransformations(dataTransformer: SceneDataTransformer | null)
     return transformationList.map((t, index) => ({
       transformConfig: t,
       registryItem: standardTransformersRegistry.getIfExists(t.id),
-      transformId: `${t.id}-${index}`,
+      transformId: getTransformId(t.id, index),
     }));
   }, [dataTransformer, transformerState]);
 }

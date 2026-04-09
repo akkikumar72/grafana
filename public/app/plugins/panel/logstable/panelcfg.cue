@@ -14,6 +14,10 @@
 
 package grafanaplugin
 
+import (
+	"github.com/grafana/grafana/packages/grafana-schema/src/common"
+)
+
 composableKinds: PanelCfg: {
 	maturity: "experimental"
 	lineage: {
@@ -21,12 +25,15 @@ composableKinds: PanelCfg: {
 			version: [0, 0]
 			schema: {
 				Options: {
+					permalinkedLogId?:   string
 					showInspectLogLine?: bool | *true
-					showCopyLogLink?: bool | *false
-					fieldSelectorWidth?: number
+					showCopyLogLink?:    bool | *false
+					showControls?:       bool | *true
+					sortOrder?:          common.LogsSortOrder | (*"Descending" | _)
+					fieldSelectorWidth?: number | *220
 					displayedFields?: [...string]
-					setDisplayedFields?: _
 					buildLinkToLogLine?: _
+					wrapText?:           bool
 				} @cuetsy(kind="interface")
 			}
 		}]

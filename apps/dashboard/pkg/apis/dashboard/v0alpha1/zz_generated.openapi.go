@@ -8,7 +8,7 @@
 package v0alpha1
 
 import (
-	datav0alpha1 "github.com/grafana/grafana-plugin-sdk-go/experimental/apis/data/v0alpha1"
+	datasourcev0alpha1 "github.com/grafana/grafana-plugin-sdk-go/experimental/apis/datasource/v0alpha1"
 	commonv0alpha1 "github.com/grafana/grafana/pkg/apimachinery/apis/common/v0alpha1"
 	common "k8s.io/kube-openapi/pkg/common"
 	spec "k8s.io/kube-openapi/pkg/validation/spec"
@@ -27,7 +27,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		DashboardHit{}.OpenAPIModelName():                                                          schema_pkg_apis_dashboard_v0alpha1_DashboardHit(ref),
 		"github.com/grafana/grafana/apps/dashboard/pkg/apis/dashboard/v0alpha1.DashboardJSONCodec": schema_pkg_apis_dashboard_v0alpha1_DashboardJSONCodec(ref),
 		DashboardList{}.OpenAPIModelName():                                                         schema_pkg_apis_dashboard_v0alpha1_DashboardList(ref),
-		"github.com/grafana/grafana/apps/dashboard/pkg/apis/dashboard/v0alpha1.DashboardMetadata":  schema_pkg_apis_dashboard_v0alpha1_DashboardMetadata(ref),
 		DashboardSnapshotWithDeleteKey{}.OpenAPIModelName():                                        schema_pkg_apis_dashboard_v0alpha1_DashboardSnapshotWithDeleteKey(ref),
 		DashboardStatus{}.OpenAPIModelName():                                                       schema_pkg_apis_dashboard_v0alpha1_DashboardStatus(ref),
 		DashboardWithAccessInfo{}.OpenAPIModelName():                                               schema_pkg_apis_dashboard_v0alpha1_DashboardWithAccessInfo(ref),
@@ -43,7 +42,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"github.com/grafana/grafana/apps/dashboard/pkg/apis/dashboard/v0alpha1.SnapshotClient":     schema_pkg_apis_dashboard_v0alpha1_SnapshotClient(ref),
 		"github.com/grafana/grafana/apps/dashboard/pkg/apis/dashboard/v0alpha1.SnapshotJSONCodec":  schema_pkg_apis_dashboard_v0alpha1_SnapshotJSONCodec(ref),
 		SnapshotList{}.OpenAPIModelName():                                                          schema_pkg_apis_dashboard_v0alpha1_SnapshotList(ref),
-		"github.com/grafana/grafana/apps/dashboard/pkg/apis/dashboard/v0alpha1.SnapshotMetadata":   schema_pkg_apis_dashboard_v0alpha1_SnapshotMetadata(ref),
 		SnapshotSharingOptions{}.OpenAPIModelName():                                                schema_pkg_apis_dashboard_v0alpha1_SnapshotSharingOptions(ref),
 		SnapshotSpec{}.OpenAPIModelName():                                                          schema_pkg_apis_dashboard_v0alpha1_SnapshotSpec(ref),
 		SortBy{}.OpenAPIModelName():                                                                schema_pkg_apis_dashboard_v0alpha1_SortBy(ref),
@@ -100,14 +98,8 @@ func schema_pkg_apis_dashboard_v0alpha1_AnnotationPermission(ref common.Referenc
 							Ref:     ref(AnnotationActions{}.OpenAPIModelName()),
 						},
 					},
-					"organization": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref(AnnotationActions{}.OpenAPIModelName()),
-						},
-					},
 				},
-				Required: []string{"dashboard", "organization"},
+				Required: []string{"dashboard"},
 			},
 		},
 		Dependencies: []string{
@@ -589,102 +581,6 @@ func schema_pkg_apis_dashboard_v0alpha1_DashboardList(ref common.ReferenceCallba
 	}
 }
 
-func schema_pkg_apis_dashboard_v0alpha1_DashboardMetadata(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "metadata contains embedded CommonMetadata and can be extended with custom string fields without external reference as using the CommonMetadata reference breaks thema codegen.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"updateTimestamp": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "date-time",
-						},
-					},
-					"createdBy": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"uid": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"creationTimestamp": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "date-time",
-						},
-					},
-					"deletionTimestamp": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "date-time",
-						},
-					},
-					"finalizers": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"resourceVersion": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"generation": {
-						SchemaProps: spec.SchemaProps{
-							Default: 0,
-							Type:    []string{"integer"},
-							Format:  "int64",
-						},
-					},
-					"updatedBy": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"labels": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"object"},
-							AdditionalProperties: &spec.SchemaOrBool{
-								Allows: true,
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"updateTimestamp", "createdBy", "uid", "creationTimestamp", "finalizers", "resourceVersion", "generation", "updatedBy", "labels"},
-			},
-		},
-	}
-}
-
 func schema_pkg_apis_dashboard_v0alpha1_DashboardSnapshotWithDeleteKey(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -1052,7 +948,7 @@ func schema_pkg_apis_dashboard_v0alpha1_LibraryPanelSpec(ref common.ReferenceCal
 					"datasource": {
 						SchemaProps: spec.SchemaProps{
 							Description: "The default datasource type",
-							Ref:         ref(datav0alpha1.DataSourceRef{}.OpenAPIModelName()),
+							Ref:         ref(datasourcev0alpha1.DataSourceRef{}.OpenAPIModelName()),
 						},
 					},
 					"gridPos": {
@@ -1094,7 +990,7 @@ func schema_pkg_apis_dashboard_v0alpha1_LibraryPanelSpec(ref common.ReferenceCal
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Ref: ref(datav0alpha1.DataQuery{}.OpenAPIModelName()),
+										Ref: ref(datasourcev0alpha1.DataQuery{}.OpenAPIModelName()),
 									},
 								},
 							},
@@ -1105,7 +1001,7 @@ func schema_pkg_apis_dashboard_v0alpha1_LibraryPanelSpec(ref common.ReferenceCal
 			},
 		},
 		Dependencies: []string{
-			datav0alpha1.DataQuery{}.OpenAPIModelName(), datav0alpha1.DataSourceRef{}.OpenAPIModelName(), GridPos{}.OpenAPIModelName(), commonv0alpha1.Unstructured{}.OpenAPIModelName()},
+			datasourcev0alpha1.DataQuery{}.OpenAPIModelName(), datasourcev0alpha1.DataSourceRef{}.OpenAPIModelName(), GridPos{}.OpenAPIModelName(), commonv0alpha1.Unstructured{}.OpenAPIModelName()},
 	}
 }
 
@@ -1384,102 +1280,6 @@ func schema_pkg_apis_dashboard_v0alpha1_SnapshotList(ref common.ReferenceCallbac
 	}
 }
 
-func schema_pkg_apis_dashboard_v0alpha1_SnapshotMetadata(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "metadata contains embedded CommonMetadata and can be extended with custom string fields without external reference as using the CommonMetadata reference breaks thema codegen.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"updateTimestamp": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "date-time",
-						},
-					},
-					"createdBy": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"uid": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"creationTimestamp": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "date-time",
-						},
-					},
-					"deletionTimestamp": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "date-time",
-						},
-					},
-					"finalizers": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"resourceVersion": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"generation": {
-						SchemaProps: spec.SchemaProps{
-							Default: 0,
-							Type:    []string{"integer"},
-							Format:  "int64",
-						},
-					},
-					"updatedBy": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"labels": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"object"},
-							AdditionalProperties: &spec.SchemaOrBool{
-								Allows: true,
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"updateTimestamp", "createdBy", "uid", "creationTimestamp", "finalizers", "resourceVersion", "generation", "updatedBy", "labels"},
-			},
-		},
-	}
-}
-
 func schema_pkg_apis_dashboard_v0alpha1_SnapshotSharingOptions(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -1563,6 +1363,13 @@ func schema_pkg_apis_dashboard_v0alpha1_SnapshotSpec(ref common.ReferenceCallbac
 					"timestamp": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Snapshot creation timestamp",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"deleteKey": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Snapshot delete key",
 							Type:        []string{"string"},
 							Format:      "",
 						},

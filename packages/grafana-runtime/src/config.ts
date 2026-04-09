@@ -1,31 +1,31 @@
 import { merge } from 'lodash';
 
 import {
-  AppPluginConfig as AppPluginConfigGrafanaData,
-  AuthSettings,
-  AzureSettings as AzureSettingsGrafanaData,
-  BootData,
-  BuildInfo,
-  DataSourceInstanceSettings,
-  FeatureToggles,
-  GrafanaTheme,
-  GrafanaTheme2,
-  LicenseInfo,
-  MapLayerOptions,
-  OAuthSettings,
-  PanelPluginMeta,
-  PreinstalledPlugin as PreinstalledPluginGrafanaData,
+  type AppPluginConfig as AppPluginConfigGrafanaData,
+  type AuthSettings,
+  type AzureSettings as AzureSettingsGrafanaData,
+  type BootData,
+  type BuildInfo,
+  type DataSourceInstanceSettings,
+  type FeatureToggles,
+  type GrafanaTheme,
+  type GrafanaTheme2,
+  type LicenseInfo,
+  type MapLayerOptions,
+  type OAuthSettings,
+  type PanelPluginMeta,
+  type PreinstalledPlugin as PreinstalledPluginGrafanaData,
   systemDateFormats,
-  SystemDateFormatSettings,
+  type SystemDateFormatSettings,
   getThemeById,
-  AngularMeta,
-  PluginLoadingStrategy,
-  PluginDependencies,
-  PluginExtensions,
-  TimeOption,
-  UnifiedAlertingConfig,
-  GrafanaConfig,
-  CurrentUserDTO,
+  type AngularMeta,
+  type PluginLoadingStrategy,
+  type PluginDependencies,
+  type PluginExtensions,
+  type TimeOption,
+  type UnifiedAlertingConfig,
+  type GrafanaConfig,
+  type CurrentUserDTO,
 } from '@grafana/data';
 
 /**
@@ -138,11 +138,12 @@ export class GrafanaBootConfig {
   trustedTypesDefaultPolicyEnabled = false;
   cspReportOnlyEnabled = false;
   liveEnabled = true;
+  liveNamespaced = false; // orgId vs namespace
   liveMessageSizeLimit = 65536;
   /** @deprecated Use `theme2` instead. */
   theme: GrafanaTheme;
   theme2: GrafanaTheme2;
-  featureToggles: FeatureToggles = {};
+  featureToggles: FeatureToggles & { kubernetesDashboards?: boolean } = {};
   anonymousEnabled = false;
   anonymousDeviceLimit?: number;
   licenseInfo: LicenseInfo = {} as LicenseInfo;
@@ -187,6 +188,7 @@ export class GrafanaBootConfig {
   caching = {
     enabled: false,
     cleanCacheEnabled: true,
+    defaultTTLMs: 300000,
   };
   geomapDefaultBaseLayerConfig?: MapLayerOptions;
   geomapDisableCustomBaseLayer?: boolean;
@@ -287,6 +289,7 @@ export class GrafanaBootConfig {
     overrideFeatureTogglesFromUrl(this);
     overrideFeatureTogglesFromLocalStorage(this);
 
+    this.featureToggles.kubernetesDashboards = true; // Force true
     this.bootData.settings.featureToggles = this.featureToggles;
 
     // Creating theme after applying feature toggle overrides in case we need to toggle anything
